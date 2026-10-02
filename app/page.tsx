@@ -133,8 +133,12 @@ export default function Home() {
     ===================================================== */
 
     function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      // Match the backing resolution to the display while keeping drawing
+      // coordinates in CSS pixels, including pointer and galaxy positions.
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 3);
+      canvas.width = Math.round(window.innerWidth * pixelRatio);
+      canvas.height = Math.round(window.innerHeight * pixelRatio);
+      ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
       createStars();
     }
@@ -214,7 +218,7 @@ export default function Home() {
     ===================================================== */
 
     function drawGrid() {
-      const size = 100;
+      const size = 80;
 
       ctx.strokeStyle =
         "rgba(100,170,190,0.12)";
@@ -909,10 +913,10 @@ const orbit =
             layout
             transition={{ layout: { duration: 1.25, ease: [0.22, 1, 0.36, 1] } }}
             className={entered
-              ? "mt-5 max-w-2xl text-[22px] font-medium leading-relaxed text-ice sm:text-[26px]"
-              : "mx-auto mt-4 max-w-2xl text-lg font-medium leading-relaxed text-ice sm:text-xl"}
+              ? "mt-3 max-w-2xl text-lg font-medium leading-7 text-ice sm:text-xl"
+              : "mx-auto mt-3 max-w-2xl text-base font-medium leading-6 text-ice sm:text-lg"}
           >
-            Industrial Engineering Graduate | Data Analytics | Quality Management &amp; Process Improvement
+            Industrial Engineering Graduate<br />Data Analytics | Quality Management &amp; Process Improvement
           </motion.h2>
           <AnimatePresence>
             {entered && (
@@ -921,7 +925,7 @@ const orbit =
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.65, duration: 0.75 }}
               >
-                <p className="mt-7 max-w-[720px] text-base leading-8 text-cream/90">
+                <p className="mt-4 max-w-[720px] text-base leading-8 text-cream/90">
                   Industrial Engineering graduate from Hasanuddin University with hands-on experience in data analysis, quality management, operational support, and laboratory coordination. Skilled in statistical analysis, data processing, data visualization, quality improvement, and problem-solving, supported by experience in HSE, research, academic laboratory operations, and organizational projects. Experienced in applying Python, SQL, SPSS, Minitab, Six Sigma DMAIC, FMEA, and process improvement methods to analyze data and support evidence-based decision-making. Eager to build a career in Data Analytics, Supply Chain, Inventory Management, Operations, Industrial Engineering, and Process Improvement.
                 </p>
                 <div className="institution-tags mt-7 flex min-w-0 flex-nowrap gap-1.5 overflow-x-auto px-1 py-2">
@@ -937,6 +941,7 @@ const orbit =
                   ))}
                 </div>
                 <div className="mt-8 flex flex-wrap gap-4">
+                  <a href="#about" className="hero-glow-link"><span>View Portfolio</span><span aria-hidden="true">&darr;</span></a>
                   <a href="/CV_TAUFIK_1.pdf" target="_blank" rel="noopener noreferrer" className="hero-glow-link" style={{ "--edge-color": "#97b4c3" } as React.CSSProperties}>
                     <span>View / Download CV</span><span aria-hidden="true">↗</span>
                   </a>
