@@ -6,9 +6,9 @@ import { motion, useReducedMotion } from "motion/react";
 const menu = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
+  { label: "Organisation", href: "#organisation" },
   { label: "Project", href: "#project" },
   { label: "Competencies", href: "#competencies" },
-  { label: "Organisation", href: "#organisation" },
 ];
 
 export default function Navbar({ entered = true }: { entered?: boolean }) {

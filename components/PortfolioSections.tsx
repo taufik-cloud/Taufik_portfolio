@@ -2,14 +2,17 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
+import CompetenciesContent from "./CompetenciesContent";
+import ContactContent from "./ContactContent";
+import OrganisationsContent, { OrganisationPhoto } from "./OrganisationsContent";
 import { useEffect, useState } from "react";
 
 const sections = [
   { id: "about", title: "About", subtitle: "A little more about my background, education, and research.", description: "Bagian ini akan berisi perkenalan, latar belakang pendidikan, dan hal-hal yang ingin saya kerjakan.", cards: ["My background", "What drives me", "Beyond the numbers"] },
   { id: "experience", title: "Experience", subtitle: "A collection of professional experiences, internships, and hands-on projects where I applied analytical, technical, and problem-solving skills to real-world challenges", description: "Tempat untuk perjalanan profesional, pengalaman magang, dan cerita pembelajaran. Isinya masih sementara.", cards: ["Experience 01", "Experience 02", "Experience 03"] },
+  { id: "organisation", title: "Organisations", subtitle: "", description: "", cards: ["Organisation 01", "Community & teamwork", "Leadership & contribution"] },
   { id: "project", title: "Project", subtitle: "Engineering Projects & Real Operational Solutions", description: "", cards: ["Analytics project", "Process improvement", "Research & exploration"] },
-  { id: "competencies", title: "Competencies", subtitle: "Tools, methods, and curiosity.", description: "Bagian untuk keterampilan teknis dan cara kerja. Detail kompetensi dapat ditambahkan nanti.", cards: ["Data & analytics", "Industrial engineering", "Problem solving"] },
-  { id: "organisation", title: "Organisation", subtitle: "Growing together.", description: "Cerita tentang organisasi, kolaborasi, dan kontribusi akan mengisi bagian ini.", cards: ["Organisation 01", "Community & teamwork", "Leadership & contribution"] },
+  { id: "competencies", title: "Competencies", subtitle: "", description: "", cards: ["Data & analytics", "Industrial engineering", "Problem solving"] },
 ];
 
 const coursework = [
@@ -201,13 +204,13 @@ function ExperienceCard({ experience }: { experience: (typeof experiences)[numbe
           <p className="flex items-center gap-2 text-sm text-muted"><AcademicIcon kind="location" />Makassar, South Sulawesi</p>
         </div>
       </div>
-      <div className="p-4 sm:px-6 sm:py-5">
-        <div className="flex flex-wrap items-center gap-2">
+      <div className="grid items-start gap-5 p-4 sm:px-6 sm:py-5 lg:grid-cols-[minmax(0,1fr)_220px]">
+        <div className="flex flex-wrap items-center gap-2 lg:col-span-2">
           <p className={`${aboutLabel} mr-2`}>Key focus</p>
           {experience.focus.map((focus) => <span key={focus} className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1 text-sm text-cream/90">{focus}</span>)}
         </div>
-        <h4 className={`text-xs font-medium uppercase tracking-[0.12em] text-ice mt-4`}>Responsibilities &amp; contributions</h4>
-        <ul className="mt-2 space-y-2">
+        <h4 className={`text-xs font-medium uppercase tracking-[0.12em] text-ice lg:col-span-2`}>Responsibilities &amp; contributions</h4>
+        <ul className="space-y-2">
           {experience.contributions.map((contribution) => (
             <li key={contribution} className="flex items-start gap-3 rounded-xl border border-white/[0.08] bg-black/20 px-3 py-2.5 text-base leading-6 text-cream/90 sm:px-4">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="mt-1 h-5 w-5 shrink-0 text-ice"><circle cx="12" cy="12" r="9" /><path d="m8 12 3 3 5-6" /></svg>
@@ -215,10 +218,12 @@ function ExperienceCard({ experience }: { experience: (typeof experiences)[numbe
             </li>
           ))}
         </ul>
-        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-white/10 pt-3">
+        <div className="w-full max-w-[280px] lg:max-w-none"><OrganisationPhoto id={experience.id} name={experience.company} caption="Experience moments" /></div>
+        <div className="flex flex-wrap items-center gap-2 border-t border-white/10 pt-3 lg:col-span-2">
           <p className="mr-2 text-sm text-muted">Applied methods</p>
           {experience.methods.map((method) => <span key={method} className="rounded-md border border-ice/15 px-2.5 py-1 text-sm text-ice">{method}</span>)}
         </div>
+
       </div>
     </article>
   );
@@ -243,6 +248,7 @@ const projects = [
   {
     "id": "tempe",
     "title": "Six Sigma Quality Improvement for Tempe Production",
+    "company": "UD Tempe Asli HB Makasar",
     "image": "/tempe-six-sigma-paper.png",
     "alt": "TALENTA Conference Series paper on Six Sigma DMAIC and quality cost analysis for tempe production",
     "description": "Analyzed 194,544 production units and 305 defects over 30 days to evaluate process quality and identify critical defect patterns. Six Sigma DMAIC was used to measure process capability, trace root causes, prioritize risks, and develop continuous improvement actions.",
@@ -278,6 +284,103 @@ const projects = [
       "DINESERV",
       "Google Colab"
     ]
+  },
+  {
+    "id": "smk3",
+    "title": "Statistical Analysis of SMK3 Effectiveness and Occupational Safety Risk",
+    "company": "PT INDUSTRI KAPAL INDONESIA (PERSERO)",
+    "image": "/smk3-safety-analysis.png",
+    "alt": "SPSS regression output, FMEA hazard prioritization, and fault tree analysis for shipyard occupational safety",
+    "description": "Evaluated SMK3 effectiveness and operational safety risks in shipyard activities using worker-perception data, statistical analysis, FMEA, and FTA to support continuous improvement toward zero accident.",
+    "scope": "Analyzed questionnaire data from 33 workers, tested the influence of K3 management support and K3 program implementation on zero-accident performance, and prioritized hazards across welding, crane operations, work at height, confined spaces, and ship-maintenance activities.",
+    "tech": [
+      "SPSS",
+      "Excel",
+      "Regression Analysis",
+      "FMEA",
+      "FTA",
+      "RPN",
+      "Hierarchy of Controls",
+      "SMK3",
+      "Occupational Safety"
+    ]
+  },
+  {
+    "id": "facility-layout",
+    "title": "Facility Layout Optimization Using Systematic Layout Planning",
+    "company": "UD Naga Mas Kecap Dua Jempol",
+    "image": "/facility-layout-optimization.png",
+    "alt": "Activity relationship diagram, activity relationship chart, and measured food-production facility layout",
+    "description": "Redesigned the production facility layout for UD Naga Mas Kecap Dua Jempol, a manufacturer of soy sauce, chili sauce, tomato sauce, vinegar, and syrup. Applied SLP to improve material flow, reduce transportation waste, and create a more efficient production sequence.",
+    "scope": "Evaluated 14 functional areas through on-site measurement, ARC, and ARD analysis, then developed two alternative layouts using process-layout and product-flow approaches.",
+    "tech": [
+      "SLP",
+      "ARC",
+      "ARD",
+      "Process Layout",
+      "Product Layout",
+      "Facility Planning",
+      "Material Handling"
+    ]
+  },
+  {
+    "id": "forecasting",
+    "title": "Time-Series Forecasting & Production Cost Optimization",
+    "image": "/forecasting-production-cost.png",
+    "alt": "Spreadsheet comparing forecasting accuracy and Level, Chase, and Subcontract production-planning strategies",
+    "description": "Built a demand forecasting and production-planning model using 18 months of historical data to improve forecast accuracy and identify the most cost-efficient production strategy.",
+    "scope": "Compared four forecasting approaches using MAD, MSE, MFE, and MAPE, selected a 5-month Moving Average for 12-month demand planning, and evaluated Level, Subcontract, and Chase strategies based on production capacity and cost.",
+    "result": "Forecasted 16,356 nail units and 10,131 wood units for the next planning horizon. Chase Strategy achieved the lowest modeled production cost at Rp465.95M and Rp462.28M, delivering up to ~63% cost reduction versus alternative planning strategies.",
+    "tech": [
+      "Time-Series Forecasting",
+      "Moving Average",
+      "Exponential Smoothing",
+      "MAPE",
+      "Aggregate Planning",
+      "Chase Strategy",
+      "MPS",
+      "Cost Optimization"
+    ]
+  },
+  {
+    "id": "mrp-lot-sizing",
+    "title": "MRP Lot-Sizing Analysis & Inventory Cost Optimization",
+    "image": "/mrp-lot-sizing-analysis.png",
+    "alt": "Material requirements planning spreadsheet comparing lot-sizing calculations and inventory costs for nails and wood",
+    "description": "Built a 12-month material requirements planning model to optimize ordering schedules and inventory cost across two production materials.",
+    "scope": "Compared 10 lot-sizing techniques using demand, ordering cost, holding cost, gross/net requirements, and planned order releases to determine the most cost-efficient replenishment strategy for each material.",
+    "result": "LTC and PPB achieved the lowest modeled cost for nails at Rp13.43M, while LUC and Silver Meal minimized wood inventory cost to Rp22.20M—up to ~61% lower than alternative methods evaluated.",
+    "tech": [
+      "MRP",
+      "Inventory Optimization",
+      "EOQ",
+      "LUC",
+      "LTC",
+      "PPB",
+      "Silver Meal",
+      "Wagner-Whitin",
+      "Lot Sizing"
+    ]
+  },
+  {
+    "id": "student-satisfaction-sem",
+    "title": "Structural Equation Modeling of Student Satisfaction Drivers",
+    "image": "/student-satisfaction-sem.png",
+    "alt": "SPSS ANOVA and coefficient tables, SmartPLS student satisfaction path model, and direct and mediated hypothesis test results",
+    "description": "Built a PLS-SEM model using 200 student responses to quantify how department facilities and service quality influence student satisfaction through direct and mediated relationships.",
+    "scope": "Modeled three latent constructs across 17 survey indicators, validated the measurement model, evaluated R²/Q² and model fit, and tested direct and indirect effects using SmartPLS bootstrapping.",
+    "result": "Facilities significantly improved service quality (β = 0.474, p < 0.001), while service quality significantly influenced student satisfaction (β = 0.396, p < 0.001). A significant mediation effect was also identified through the path Facilities → Service Quality → Satisfaction (β = 0.188, p < 0.001).",
+    "tech": [
+      "PLS-SEM",
+      "Excel",
+      "SmartPLS",
+      "SPSS",
+      "Path Analysis",
+      "Bootstrapping",
+      "Mediation Analysis",
+      "R² / Q²",
+      "Validity & Reliability"
+    ]
   }
 ];
 
@@ -286,7 +389,8 @@ function ProjectContent() {
 }
 
 function ProjectCard({ project }: { project: (typeof projects)[number] }) {
-  const [tab, setTab] = useState<"scope" | "tech">("scope");
+  const [tab, setTab] = useState<"scope" | "result" | "tech">("scope");
+  const tabs: ("scope" | "result" | "tech")[] = "result" in project && project.result ? ["scope", "result", "tech"] : ["scope", "tech"];
   const reducedMotion = useReducedMotion();
   return (
     <>
@@ -301,12 +405,13 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
         </div>
         <div className="p-5 sm:p-6">
           <h3 id={project.id + "-project-heading"} className="text-xl font-medium leading-snug tracking-tight text-cream">{project.title}</h3>
+          {"company" in project && project.company && <p className="mt-2 text-sm font-medium leading-5 text-ice">{project.company}</p>}
           <p className="mt-3 text-justify text-[13px] leading-6 text-cream/60">{project.description}</p>
           <div className="mt-5 flex gap-2" role="tablist" aria-label="Project details">
-            {(["scope", "tech"] as const).map((value) => <button key={value} type="button" role="tab" id={project.id + "-tab-" + value} aria-controls={project.id + "-panel-" + value} aria-selected={tab === value} onClick={() => setTab(value)} className={"rounded-full px-4 py-1.5 text-xs uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream " + (tab === value ? "bg-cream text-navy" : "bg-white/5 text-cream/60 hover:bg-white/10 hover:text-cream")}>{value}</button>)}
+            {tabs.map((value) => <button key={value} type="button" role="tab" id={project.id + "-tab-" + value} aria-controls={project.id + "-panel-" + value} aria-selected={tab === value} onClick={() => setTab(value)} className={"rounded-full px-4 py-1.5 text-xs uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream " + (tab === value ? "bg-cream text-navy" : "bg-white/5 text-cream/60 hover:bg-white/10 hover:text-cream")}>{value}</button>)}
           </div>
           <div className="mt-4" role="tabpanel" id={project.id + "-panel-" + tab} aria-labelledby={project.id + "-tab-" + tab}>
-            {tab === "scope" ? <p className="text-justify text-sm leading-6 text-cream/60">{project.scope}</p> : <ul className="flex flex-wrap gap-2">{project.tech.map((tool) => <li key={tool} className="rounded-full border border-[#5cdbff]/30 bg-[#5cdbff]/10 px-3 py-1.5 text-xs text-[#5cdbff]">{tool}</li>)}</ul>}
+            {tab === "scope" ? <p className="text-justify text-sm leading-6 text-cream/60">{project.scope}</p> : tab === "result" && "result" in project ? <p className="text-justify text-sm leading-6 text-cream/60">{project.result}</p> : <ul className="flex flex-wrap gap-2">{project.tech.map((tool) => <li key={tool} className="rounded-full border border-[#5cdbff]/30 bg-[#5cdbff]/10 px-3 py-1.5 text-xs text-[#5cdbff]">{tool}</li>)}</ul>}
           </div>
         </div>
       </motion.article>
@@ -347,7 +452,7 @@ export default function PortfolioSections() {
   return (
     <div className="relative z-20 mx-auto max-w-7xl px-6 lg:px-12">
       {sections.map((section, index) => (
-        <section key={section.id} id={section.id} className={`portfolio-section flex flex-col border-t border-white/10 ${section.id === "about" ? "justify-start pb-8 pt-5 lg:pb-10 lg:pt-6" : section.id === "project" ? "justify-start pt-8 pb-12 lg:pt-10 lg:pb-16" : section.id === "experience" ? "justify-start pt-8 pb-8 lg:pt-10 lg:pb-10" : "min-h-[85svh] justify-center py-24 lg:py-32"}`}>
+        <section key={section.id} id={section.id} className={`portfolio-section flex flex-col border-t border-white/10 ${section.id === "about" ? "justify-start pb-8 pt-5 lg:pb-10 lg:pt-6" : section.id === "project" ? "justify-start pt-8 pb-12 lg:pt-10 lg:pb-16" : section.id === "experience" ? "justify-start pt-8 pb-8 lg:pt-10 lg:pb-10" : (section.id === "competencies" || section.id === "organisation") ? "justify-start pt-6 pb-10 lg:pt-8 lg:pb-12" : "min-h-[85svh] justify-center py-24 lg:py-32"}`}>
           <motion.div
             initial={reducedMotion ? false : { opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -362,12 +467,12 @@ export default function PortfolioSections() {
             <div className={section.id === "project" ? "flex flex-col items-center text-center" : "flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"}>
               <div>
                 <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">{section.title}</h2>
-                <p className="mt-4 max-w-3xl text-base leading-7 text-cream/70">{section.subtitle}</p>
+                {section.subtitle && <p className="mt-4 max-w-3xl text-base leading-7 text-cream/70">{section.subtitle}</p>}
               </div>
               {section.id !== "about" && section.id !== "experience" && section.description && <p className="max-w-md text-sm leading-7 text-muted">{section.description}</p>}
             </div>
             )}
-            {section.id === "about" ? <AboutContent /> : section.id === "experience" ? <ExperienceContent /> : section.id === "project" ? <ProjectContent /> : (
+            {section.id === "about" ? <AboutContent /> : section.id === "experience" ? <ExperienceContent /> : section.id === "project" ? <ProjectContent /> : section.id === "competencies" ? <CompetenciesContent /> : section.id === "organisation" ? <OrganisationsContent /> : (
             <div className="mt-12 grid gap-5 md:grid-cols-3">
               {section.cards.map((title, cardIndex) => (
                 <motion.article
@@ -386,6 +491,7 @@ export default function PortfolioSections() {
           </motion.div>
         </section>
       ))}
+      <ContactContent />
       <footer className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 py-8 text-xs text-muted">
         <span>Taufik &bull; Industrial Engineering, Unhas</span>
         <a href="#home" className="text-ice/70 transition-colors hover:text-ice">Back to top &uarr;</a>
