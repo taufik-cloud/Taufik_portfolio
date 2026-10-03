@@ -51,6 +51,27 @@ export default function Home() {
   ======================================================= */
 
   useEffect(() => {
+    const previousRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
+    if (window.location.hash) {
+      window.history.replaceState(window.history.state, "", window.location.pathname + window.location.search);
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    return () => {
+      window.history.scrollRestoration = previousRestoration;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!entered) return;
+    // Reset after the intro changes the hero layout as well.
+    const frame = window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [entered]);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       setEntered(true);
     }, 700);

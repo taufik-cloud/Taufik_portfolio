@@ -456,7 +456,7 @@ export default function PortfolioSections() {
           <motion.div
             initial={reducedMotion ? false : { opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
+            viewport={{ once: true, amount: "some" }}
             transition={{ duration: reducedMotion ? 0 : 0.7 }}
           >
             <div className="mb-6 flex items-center gap-4 text-xs uppercase tracking-[0.25em] text-ice/70">
