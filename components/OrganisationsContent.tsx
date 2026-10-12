@@ -10,7 +10,7 @@ const photos: Record<string, { src: string; alt: string }> = {
   siclus: { src: "/siclus-program.jpg", alt: "Three-photo collage of SICLUS SRE UNHAS activities and participants" },
   share: { src: "/share-team.jpg", alt: "Nine SHARE Future Leaders Program team members in black and white outfits" },
   hmti: { src: "/hmti-program.png", alt: "Collage of HMTI activities, including members wearing red jackets" },
-  "creative-economy": { src: "/hmti-program.png", alt: "Temporary shared photo for the Creative Economy Development program" },
+  "creative-economy": { src: "/creative-economy-program.png", alt: "Community development activities in Sapanang Village, including a community gathering and farmer training" },
   "supply-chain": { src: "/hmti-program.png", alt: "Temporary shared photo for the Supply Chain and Logistic Indonesia Camp and Seminar" },
 };
 
