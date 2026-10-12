@@ -143,8 +143,8 @@ html {
 @media (hover: hover) and (pointer: fine) {
   .material-surface:not(.project-card):hover { translate: 0 -3px; scale: 1.008; border-color: rgba(92,219,255,.55); box-shadow: 0 0 12px rgba(92,219,255,.14), 0 8px 20px rgba(0,0,0,.16); }
 }
-.material-revealed { animation: material-appear 550ms cubic-bezier(.2,.65,.3,1) backwards; }
-@keyframes material-appear { from { opacity: .15; translate: 0 16px; } to { opacity: 1; translate: 0 0; } }
+.material-revealed { animation: material-appear 400ms cubic-bezier(.2,.65,.3,1) backwards; }
+@keyframes material-appear { from { opacity: .15; translate: 0 6px; } to { opacity: 1; translate: 0 0; } }
 @media (prefers-reduced-motion: reduce) {
   .material-surface { transition: none; }
   .material-revealed { animation: none; }

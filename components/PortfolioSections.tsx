@@ -146,11 +146,12 @@ const experiences = [
   {
     id: "iki", company: "PT Industri Kapal Indonesia (PERSERO)", type: "Internship",
     role: "Occupational Health, Safety, and Environment (HSE) Intern", period: "February–July 2025",
-    focus: ["HSE Data", "Risk Assessment", "Audit Documentation", "Continuous Improvement"],
-    methods: ["Excel", "Word", "Regression Analysis", "FMEA", "Hierarchy of Controls"],
+    methods: ["Excel", "Word", "FMEA", "FTA", "Hierarchy of Controls", "ISO 45001", "ISO 9001"],
     contributions: [
-      "Managed HSE data, incident records, risk assessments, and audit documentation to support safety evaluation and continuous improvement.",
-      "Conducted research on HSE management effectiveness using regression analysis, FMEA, and Hierarchy of Controls to identify key risks and recommend improvement.",
+      "Analyzed operational data from 120 warehouse workers to evaluate workplace conditions, identify operational risks, and support data-driven improvement initiatives.",
+      "Monitored shipyard operations involving vessel docking, welding, steel fabrication, hull maintenance, and machinery repairs, gaining practical exposure to shipbuilding and vessel maintenance workflows.",
+      "Monitored maintenance and repair activities involving 7 identified vessels, including Lamima, Portlink, Lanjukang, Pertamina vessels, Nan Yang Kaya, and KT. Teluk Adang I, with activities covering propeller work, machinery repairs, and hull cleaning.",
+      "Managed incident, risk assessment, and audit data; supported departmental KPI development and applied FMEA, FTA, and Hierarchy of Controls, with reference to ISO 45001 and ISO 9001, to support risk assessment and operational improvement.",
     ],
   },
   {
@@ -159,9 +160,9 @@ const experiences = [
     focus: ["Statistical Analysis", "Quality Management", "Research", "Practicum Coordination"],
     methods: ["Excel", "SPSS", "SmartPLS", "Minitab", "Six Sigma DMAIC", "FTA", "FMEA", "Kaizen", "Cost of Quality"],
     contributions: [
-      "Taught and guided students in statistical analysis and quality management, including data collecting, processing, and interpretation using EXCEL, SPSS, SmartPLS, and Minitab for practicum objectives.",
-      "Co-authored a published research paper on quality control using Six Sigma DMAIC, FTA, FMEA, Kaizen, and Cost of Quality analysis to identify production defects and develop continuous improvement recommendations.",
-      "Coordinated Industrial Engineering laboratory practicums for approximately 90 students, ensuring effective session execution, procedural compliance, and providing direct academic guidance throughout the learning process.",
+      "Coordinated and guided 100+ students across four modules: Descriptive Statistics using 200+ tourism-site respondents; Inferential Statistics using 200+ customer satisfaction respondents; Structural Equation Modeling (SEM) using 200+ banking respondents; and Quality Management using 10,000+ defect records from a manufacturing company.",
+      "Guided students in data collection, processing, statistical analysis, and interpretation using Excel, SPSS, SmartPLS, and Minitab, applying descriptive and inferential statistics, hypothesis testing, regression analysis, and SEM to real-world cases.",
+      "Applied Six Sigma, SPC, Kaizen, FMEA, and quality-cost analysis across manufacturing cases to identify defects, evaluate process performance, and develop continuous improvement recommendations with approximately 10% potential improvement.",
     ],
   },
   {
@@ -170,9 +171,9 @@ const experiences = [
     focus: ["Participant Data", "Event Documentation", "Digital Publications", "Online Session Hosting"],
     methods: ["Excel", "Word", "Figma", "Canva"],
     contributions: [
-      "Managed participant data entry, verification, and event documentation for 800+ engineers across multiple professional engineering events.",
-      "Produced certificates, digital publications, and supporting event materials while coordinating administrative and communication needs.",
-      "Served as an online session host for engineer candidates presenting their professional projects, managing presentation flow and assisting participants throughout each session.",
+      "Managed participant records in Excel, data verification on the web, certificates in Figma, digital publications, and event administration for 800+ professional engineers across multiple professional engineer programs and periods.",
+      "Coordinated offline professional engineer oath-taking events for 200+ engineers per period, supporting event preparation, participant coordination, on-site administration, and event execution.",
+      "Hosted online sessions for 120+ participants per period, coordinating speakers, managing presentation flow, and resolving technical and administrative issues.",
     ],
   },
 ];
@@ -205,10 +206,7 @@ function ExperienceCard({ experience }: { experience: (typeof experiences)[numbe
         </div>
       </div>
       <div className="grid items-start gap-5 p-4 sm:px-6 sm:py-5 lg:grid-cols-[minmax(0,1fr)_220px]">
-        <div className="flex flex-wrap items-center gap-2 lg:col-span-2">
-          <p className={`${aboutLabel} mr-2`}>Key focus</p>
-          {experience.focus.map((focus) => <span key={focus} className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1 text-sm text-cream/90">{focus}</span>)}
-        </div>
+
         <h4 className={`text-xs font-medium uppercase tracking-[0.12em] text-ice lg:col-span-2`}>Responsibilities &amp; contributions</h4>
         <ul className="space-y-2">
           {experience.contributions.map((contribution) => (
@@ -454,10 +452,10 @@ export default function PortfolioSections() {
       {sections.map((section, index) => (
         <section key={section.id} id={section.id} className={`portfolio-section flex flex-col border-t border-white/10 ${section.id === "about" ? "justify-start pb-8 pt-5 lg:pb-10 lg:pt-6" : section.id === "project" ? "justify-start pt-8 pb-12 lg:pt-10 lg:pb-16" : section.id === "experience" ? "justify-start pt-8 pb-8 lg:pt-10 lg:pb-10" : (section.id === "competencies" || section.id === "organisation") ? "justify-start pt-6 pb-10 lg:pt-8 lg:pb-12" : "min-h-[85svh] justify-center py-24 lg:py-32"}`}>
           <motion.div
-            initial={reducedMotion ? false : { opacity: 0, y: 32 }}
+            initial={reducedMotion ? false : { opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: "some" }}
-            transition={{ duration: reducedMotion ? 0 : 0.7 }}
+            transition={{ duration: reducedMotion ? 0 : 0.45 }}
           >
             <div className="mb-6 flex items-center gap-4 text-xs uppercase tracking-[0.25em] text-ice/70">
               <span>0{index + 1} / {section.title}</span>
