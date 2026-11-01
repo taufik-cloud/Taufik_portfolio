@@ -298,7 +298,7 @@ const projects = [
   {
     "id": "bantimurung-feasibility",
     "title": "Investment Feasibility Analysis for Bantimurung Natural Tourism",
-    "image": "/bantimurung-feasibility.svg",
+    "image": "/bantimurung-feasibility.png",
     "alt": "Bantimurung tourism investment feasibility summary with GE-McKinsey market matrix and projected financial indicators",
     "description": "Conducted an investment feasibility study for the development of Bantimurung Natural Tourism, Maros, evaluating market potential, infrastructure requirements, operating costs, and projected financial returns to support business development decisions.",
     "scope": "Evaluated market attractiveness and competitiveness using the GE-McKinsey Matrix; estimated Rp30 billion in CAPEX, asset depreciation, and annual operating expenses; projected annual revenue of Rp5.697 billion and annual profit of Rp5.085 billion. The feasibility assessment produced a positive NPV of Rp170.38 million, an IRR of 12%, a BCR of 1.006, and a discounted payback period of approximately 9 years and 11 months.",
@@ -510,7 +510,7 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
           {"company" in project && project.company && <p className="mt-2 text-sm font-medium leading-5 text-ice">{project.company}</p>}
           <p className="mt-3 text-justify text-[13px] leading-6 text-cream/60">{project.description}</p>
           <div className="mt-5 flex gap-2" role="tablist" aria-label="Project details">
-            {tabs.map((value) => <button key={value} type="button" role="tab" id={project.id + "-tab-" + value} aria-controls={project.id + "-panel-" + value} aria-selected={tab === value} onClick={() => setTab(value)} className={"rounded-full px-4 py-1.5 text-xs uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream " + (tab === value ? "bg-cream text-navy" : "bg-white/5 text-cream/60 hover:bg-white/10 hover:text-cream")}>{value}</button>)}
+            {tabs.map((value) => <button key={value} type="button" suppressHydrationWarning role="tab" id={project.id + "-tab-" + value} aria-controls={project.id + "-panel-" + value} aria-selected={tab === value} onClick={() => setTab(value)} className={"rounded-full px-4 py-1.5 text-xs uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream " + (tab === value ? "bg-cream text-navy" : "bg-white/5 text-cream/60 hover:bg-white/10 hover:text-cream")}>{value}</button>)}
           </div>
           <div className="mt-4" role="tabpanel" id={project.id + "-panel-" + tab} aria-labelledby={project.id + "-tab-" + tab}>
             {tab === "scope" ? <p className="text-justify text-sm leading-6 text-cream/60">{project.scope}</p> : tab === "result" && "result" in project ? <p className="text-justify text-sm leading-6 text-cream/60">{project.result}</p> : <ul className="flex flex-wrap gap-2">{project.tech.map((tool) => <li key={tool} className="rounded-full border border-[#5cdbff]/30 bg-[#5cdbff]/10 px-3 py-1.5 text-xs text-[#5cdbff]">{tool}</li>)}</ul>}
