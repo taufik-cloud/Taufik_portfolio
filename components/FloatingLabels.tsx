@@ -25,8 +25,8 @@ export default function FloatingLabels({ entered }: { entered: boolean }) {
           <motion.span
             animate={{
               x: floating ? [0, 5 * label.direction, -3 * label.direction, 0] : 0,
-              y: floating ? [0, -5, 3, 0] : 0,
-              rotate: floating ? [0, 0.8 * label.direction, -0.6 * label.direction, 0] : 0,
+              y: floating ? [0, -2, 1, 0] : 0,
+              rotate: floating ? [0, 0.25 * label.direction, -0.2 * label.direction, 0] : 0,
             }}
             transition={{ duration: label.duration, repeat: Infinity, ease: "easeInOut", delay: 1.85 + label.delay }}
             style={{

@@ -94,6 +94,7 @@ export default function Home() {
     const ctx: CanvasRenderingContext2D = context;
 
     let animationFrame = 0;
+    let animationRunning = false;
 
     let stars: Star[] = [];
     let ripples: Ripple[] = [];
@@ -153,10 +154,11 @@ export default function Home() {
        RESIZE
     ===================================================== */
 
+
     function resize() {
       // Match the backing resolution to the display while keeping drawing
       // coordinates in CSS pixels, including pointer and galaxy positions.
-      const pixelRatio = Math.min(window.devicePixelRatio || 1, 3);
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(window.innerWidth * pixelRatio);
       canvas.height = Math.round(window.innerHeight * pixelRatio);
       ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -697,6 +699,10 @@ const orbit =
     ===================================================== */
 
     function animate() {
+      if (document.hidden) {
+        animationRunning = false;
+        return;
+      }
       ctx.clearRect(
         0,
         0,
@@ -723,6 +729,17 @@ const orbit =
         );
     }
 
+    function handleVisibilityChange() {
+      if (document.hidden) {
+        cancelAnimationFrame(animationFrame);
+        animationRunning = false;
+        return;
+      }
+      if (animationRunning) return;
+      animationRunning = true;
+      animationFrame = requestAnimationFrame(animate);
+    }
+
     /* =====================================================
        EVENTS
     ===================================================== */
@@ -744,7 +761,9 @@ const orbit =
 
     resize();
 
-    animate();
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    handleVisibilityChange();
 
     return () => {
       cancelAnimationFrame(
@@ -765,6 +784,7 @@ const orbit =
         "resize",
         resize
       );
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
@@ -937,7 +957,7 @@ const orbit =
               ? "mt-3 max-w-2xl text-lg font-medium leading-7 text-ice sm:text-xl"
               : "mx-auto mt-3 max-w-2xl text-base font-medium leading-6 text-ice sm:text-lg"}
           >
-            Industrial Engineering Graduate<br />Data Analytics | Quality Management &amp; Process Improvement
+            Industrial Engineering Graduate<br />Data Analytics | Quality Management | Supply Chain Management
           </motion.h2>
           <AnimatePresence>
             {entered && (
@@ -947,31 +967,13 @@ const orbit =
                 transition={{ delay: 0.65, duration: 0.75 }}
               >
                 <p className="mt-4 max-w-[720px] text-base leading-8 text-cream/90">
-                  Industrial Engineering graduate from Hasanuddin University with experience in operational analysis, warehouse-related activities, quality management, data administration, and team coordination. Analyzed operational data from 120 warehouse workers at PT Industri Kapal Indonesia (Persero), supported departmental KPI development, and coordinated 100+ students across statistical and quality management practicums. Demonstrated leadership through team coordination and organizational activities, with experience applying Six Sigma, SPC, Kaizen, FMEA, and data analysis to identify problems and recommend process improvements. Combines analytical thinking, communication, and organizational skills with a proactive, adaptable mindset and eagerness to learn new skills to support manufacturing operations, supply chain, inventory control, and continuous improvement.
+                  Industrial Engineering graduate from Hasanuddin University with a strong foundation in supply chain management, Data analyst (BNSP Certified), procurement, inventory planning, and data-driven process improvement. Applied Material Requirements Planning (MRP), inventory cost analysis, and demand forecasting to evaluate 10 lot-sizing methods and identify cost-efficient inventory decisions. Gained operational exposure through warehouse data analysis involving 120 workers at PT IKI (Persero), alongside academic projects in production planning and facility layout optimization. Gained additional exposure to Lean Manufacturing simulations at Universiti Sains Malaysia. Demonstrated leadership by coordinating 100+ students in statistical and quality management practicums, using Excel, SPSS, SQL, PHYTON and Minitab. Eager to contribute analytical thinking, problem-solving, and team coordination skills to Data analyst, Production, and supply chain operations.
                 </p>
-                <div className="institution-tags mt-7 flex min-w-0 flex-nowrap gap-1.5 overflow-x-auto px-1 py-2">
-                  {[
-                    "Universitas Hasanuddin",
-                    "Universitas Sains Malaysia",
-                    "PT. Industri Kapal Indonesia",
-                    "Statistic and Quality Management Laboratory",
-                  ].map((institution) => (
-                    <span key={institution} className="institution-glow shrink-0 whitespace-nowrap rounded-lg border border-ice/20 bg-navy/70 px-2 py-1.5 text-[9px] leading-normal text-cream/85 backdrop-blur-lg xl:text-[10px]">
-                      {institution}
-                    </span>
-                  ))}
-                </div>
-                <div className="mt-8 flex flex-wrap gap-4">
-                  <a href="#about" className="hero-glow-link"><span>View Portfolio</span><span aria-hidden="true">&darr;</span></a>
-                  <a href="/CV_TAUFIK_1.pdf" target="_blank" rel="noopener noreferrer" className="hero-glow-link" style={{ "--edge-color": "#97b4c3" } as React.CSSProperties}>
-                    <span>View / Download CV</span><span aria-hidden="true">↗</span>
-                  </a>
-                  <a href="https://wa.me/6285756695562?text=Halo%20Taufik%2C%20saya%20tertarik%20dengan%20profil%20dan%20portofolio%20Anda." target="_blank" rel="noopener noreferrer" className="hero-glow-link" style={{ "--edge-color": "#97b4c3" } as React.CSSProperties}>
-                    <span>WhatsApp</span><span aria-hidden="true">↗</span>
-                  </a>
-                  <a href="https://drive.google.com/file/d/1A-WxkVGHyhljLnIwp_exi5pyRV0JnulP/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="hero-glow-link" style={{ "--edge-color": "#f1e9da" } as React.CSSProperties}>
-                    <span>Data Analytics (BNSP)</span><span aria-hidden="true">↗</span>
-                  </a>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <a href="#about" className="institution-glow inline-flex items-center gap-2 whitespace-nowrap rounded-lg border border-ice/20 bg-navy/70 px-2.5 py-1.5 text-[10px] leading-normal text-cream/90 backdrop-blur-lg transition-colors hover:border-ice/50 hover:bg-navy/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream">View Portfolio <span aria-hidden="true">&darr;</span></a>
+                  <a href="/CV_TAUFIK_1.pdf" target="_blank" rel="noopener noreferrer" className="institution-glow inline-flex items-center gap-2 whitespace-nowrap rounded-lg border border-ice/20 bg-navy/70 px-2.5 py-1.5 text-[10px] leading-normal text-cream/90 backdrop-blur-lg transition-colors hover:border-ice/50 hover:bg-navy/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream">View / Download CV <span aria-hidden="true">&#8599;</span></a>
+                  <a href="https://wa.me/6285756695562?text=Halo%20Taufik%2C%20saya%20tertarik%20dengan%20profil%20dan%20portofolio%20Anda." target="_blank" rel="noopener noreferrer" className="institution-glow inline-flex items-center gap-2 whitespace-nowrap rounded-lg border border-ice/20 bg-navy/70 px-2.5 py-1.5 text-[10px] leading-normal text-cream/90 backdrop-blur-lg transition-colors hover:border-ice/50 hover:bg-navy/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream">WhatsApp <span aria-hidden="true">&#8599;</span></a>
+                  <a href="https://drive.google.com/file/d/1A-WxkVGHyhljLnIwp_exi5pyRV0JnulP/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="institution-glow inline-flex items-center gap-2 whitespace-nowrap rounded-lg border border-ice/20 bg-navy/70 px-2.5 py-1.5 text-[10px] leading-normal text-cream/90 backdrop-blur-lg transition-colors hover:border-ice/50 hover:bg-navy/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream">Data Analytics (BNSP) <span aria-hidden="true">&#8599;</span></a>
                 </div>
               </motion.div>
             )}
@@ -982,3 +984,5 @@ const orbit =
     </main>
   );
 }
+
+

@@ -11,7 +11,7 @@ const photos: Record<string, { src: string; alt: string }> = {
   share: { src: "/share-team.jpg", alt: "Nine SHARE Future Leaders Program team members in black and white outfits" },
   hmti: { src: "/hmti-program.png", alt: "Collage of HMTI activities, including members wearing red jackets" },
   "creative-economy": { src: "/creative-economy-program.png", alt: "Community development activities in Sapanang Village, including a community gathering and farmer training" },
-  "supply-chain": { src: "/hmti-program.png", alt: "Temporary shared photo for the Supply Chain and Logistic Indonesia Camp and Seminar" },
+  "supply-chain": { src: "/isli-camp.png", alt: "ISLI Camp 2024 collage showing participants, workshop, and outdoor activities" },
 };
 
 export function OrganisationPhoto({ id, name, caption = "Program moments" }: { id: string; name: string; caption?: string }) {
@@ -69,32 +69,31 @@ const organisations = [
 
 export default function OrganisationsContent() {
   return (
-    <div className="mt-6 space-y-5 sm:mt-8">
+    <div className="mt-5 grid gap-4 sm:mt-6 lg:grid-cols-2">
       {organisations.map(organisation => (
-        <article key={organisation.id} aria-labelledby={organisation.id + "-organisation-heading"} className="overflow-hidden rounded-3xl border border-white/15 bg-navy/25 backdrop-blur-md transition-colors hover:border-ice/35">
-          <div className="flex flex-col justify-between gap-4 border-b border-white/10 p-5 sm:p-6 lg:flex-row lg:items-start">
-            <div className="flex min-w-0 items-start gap-4">
-              <span aria-hidden="true" className={"flex h-12 w-14 shrink-0 items-center justify-center rounded-2xl border border-current/25 bg-white/5 text-xs font-semibold tracking-wider sm:h-14 sm:w-16 " + organisation.accent}>{organisation.initials}</span>
-              <div className="min-w-0"><p className={"text-[10px] uppercase tracking-[0.16em] " + organisation.accent}>{organisation.category}</p><h3 id={organisation.id + "-organisation-heading"} className="mt-1 text-xl font-semibold leading-7 tracking-tight text-cream sm:text-2xl">{organisation.name}</h3><p className="mt-2 flex items-center gap-2 text-xs text-muted"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" /><circle cx="12" cy="10" r="2" /></svg>{organisation.location}, Indonesia</p></div>
-            </div>
+        <article key={organisation.id} aria-labelledby={organisation.id + "-organisation-heading"} className="min-w-0 overflow-hidden rounded-2xl border border-white/15 bg-navy/25 backdrop-blur-md transition-colors hover:border-ice/35">
+          <div className="flex flex-col justify-between gap-3 border-b border-white/10 p-4 sm:p-5 lg:flex-row lg:items-start">
+            <div className="min-w-0"><h3 id={organisation.id + "-organisation-heading"} className="text-lg font-semibold leading-6 tracking-tight text-cream sm:text-xl">{organisation.name}</h3><p className="mt-2 flex items-center gap-2 text-xs text-muted"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" /><circle cx="12" cy="10" r="2" /></svg>{organisation.location}, Indonesia</p></div>
             <p className="inline-flex w-fit shrink-0 items-center gap-2 rounded-lg border border-white/15 bg-white/[0.03] px-3 py-2 text-xs text-cream/80"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-4 w-4 text-ice"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M7 3v4m10-4v4M3 11h18" /></svg>{organisation.period}</p>
           </div>
-          <div className="grid gap-6 p-5 sm:p-6 lg:grid-cols-[minmax(0,1fr)_260px] lg:gap-8">
-            <div className="min-w-0">
+          <div className="p-4 sm:p-5">
             <ol className="space-y-6">
               {organisation.roles.map(role => <li key={role.title} className={organisation.roles.length > 1 ? "relative border-l border-ice/25 pl-5" : ""}>
                 {organisation.roles.length > 1 && <span aria-hidden="true" className="absolute -left-1 top-2 h-2 w-2 rounded-full bg-ice" />}
                 <h4 className={"text-base font-medium leading-6 " + organisation.accent}>{role.title}</h4>
                 {organisation.roles.length > 1 && <p className="mt-1 text-xs text-muted">{role.period}</p>}
-                <ul className="mt-3 space-y-2">{role.contributions.map(contribution => <li key={contribution} className="flex items-start gap-3 text-sm leading-6 text-cream/75"><span aria-hidden="true" className={"mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-current " + organisation.accent} /><span>{contribution}</span></li>)}</ul>
+                <ul className="mt-3 space-y-2">{role.contributions.map(contribution => <li key={contribution} className="flex items-start gap-3 text-sm leading-6 text-cream/75"><span aria-hidden="true" className={"mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-current " + organisation.accent} /><span className="text-justify">{contribution}</span></li>)}</ul>
               </li>)}
             </ol>
-            <aside className="mt-5 rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-black/20 p-5">
-              <p className="text-[10px] uppercase tracking-[0.16em] text-cream/50">Contribution highlight</p><p className={"mt-3 text-2xl font-semibold tracking-tight " + organisation.accent}>{organisation.highlight}</p><p className="mt-2 text-sm leading-6 text-cream/80">{organisation.highlightLabel}</p><p className="mt-3 border-t border-white/10 pt-3 text-xs leading-5 text-muted">{organisation.context}</p>
-
-            </aside>
+            <div className="mt-5 grid items-stretch gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(160px,200px)]">
+              <aside className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-black/20 p-4">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-cream/50">Contribution highlight</p>
+                <p className={"mt-2 text-xl font-semibold tracking-tight " + organisation.accent}>{organisation.highlight}</p>
+                <p className="mt-1.5 text-sm leading-5 text-cream/80">{organisation.highlightLabel}</p>
+                <p className="mt-2 border-t border-white/10 pt-2 text-xs leading-4 text-muted">{organisation.context}</p>
+              </aside>
+              <div className="w-full max-w-[200px] self-center lg:max-w-none"><OrganisationPhoto id={organisation.id} name={organisation.name} /></div>
             </div>
-            <div className="w-full max-w-[320px] self-start lg:max-w-none"><OrganisationPhoto id={organisation.id} name={organisation.name} /></div>
           </div>
           <div className="flex flex-wrap items-center gap-2 border-t border-white/10 px-5 py-4 sm:px-6"><p className="mr-2 text-[10px] uppercase tracking-[0.15em] text-cream/50">Skills applied</p>{organisation.tags.map(tag => <span key={tag} className={"rounded-md border border-white/15 bg-white/[0.025] px-2.5 py-1 text-xs " + organisation.accent}>{tag}</span>)}</div>
         </article>
@@ -102,3 +101,4 @@ export default function OrganisationsContent() {
     </div>
   );
 }
+

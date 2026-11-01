@@ -5,13 +5,13 @@ import Image from "next/image";
 import CompetenciesContent from "./CompetenciesContent";
 import ContactContent from "./ContactContent";
 import OrganisationsContent, { OrganisationPhoto } from "./OrganisationsContent";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const sections = [
   { id: "about", title: "About", subtitle: "A little more about my background, education, and research.", description: "Bagian ini akan berisi perkenalan, latar belakang pendidikan, dan hal-hal yang ingin saya kerjakan.", cards: ["My background", "What drives me", "Beyond the numbers"] },
   { id: "experience", title: "Experience", subtitle: "A collection of professional experiences, internships, and hands-on projects where I applied analytical, technical, and problem-solving skills to real-world challenges", description: "Tempat untuk perjalanan profesional, pengalaman magang, dan cerita pembelajaran. Isinya masih sementara.", cards: ["Experience 01", "Experience 02", "Experience 03"] },
-  { id: "organisation", title: "Organisations", subtitle: "", description: "", cards: ["Organisation 01", "Community & teamwork", "Leadership & contribution"] },
   { id: "project", title: "Project", subtitle: "Engineering Projects & Real Operational Solutions", description: "", cards: ["Analytics project", "Process improvement", "Research & exploration"] },
+  { id: "organisation", title: "Organisations", subtitle: "", description: "", cards: ["Organisation 01", "Community & teamwork", "Leadership & contribution"] },
   { id: "competencies", title: "Competencies", subtitle: "", description: "", cards: ["Data & analytics", "Industrial engineering", "Problem solving"] },
 ];
 
@@ -21,6 +21,18 @@ const coursework = [
   "Statistical Process Control (SPC)", "Operations Research", "Supply Chain Management",
 ];
 const methods = ["LSTM", "BiLSTM", "Deep Learning", "Supervised and Unsupervised Learning", "Data Mining", "Latent Dirichlet Allocation", "DINESERV", "Service Quality", "Natural Language Processing"];
+const usmEvidence = [
+  { src: "/usm-paper-model-evaluation.png", title: "BiLSTM model evaluation", alt: "Confusion matrix, accuracy, precision, recall, F1 score, and ROC curve", width: 1848, height: 900 },
+  { src: "/usm-paper-analysis-workflow.png", title: "Research workflow and review trend", alt: "Sentiment analysis workflow and monthly review volume chart", width: 1486, height: 900 },
+  { src: "/usm-paper-responsiveness-lda.png", title: "Responsiveness and LDA analysis", alt: "Responsiveness coherence score and LDA topic visualization", width: 1848, height: 900 },
+  { src: "/usm-paper-performance-comparison.png", title: "Model performance comparison", alt: "LSTM and BiLSTM performance comparison and LDA result visualization", width: 1848, height: 900 },
+ ] as const;
+const unhasEvidence = [
+  { src: "/unhas-paper-pareto-ctq.png", title: "Pareto and CTQ analysis", alt: "Pareto chart and CTQ defect proportions for tempe production", width: 672, height: 1184 },
+  { src: "/unhas-paper-fault-tree-analysis.png", title: "Fault Tree Analysis", alt: "Fault Tree Analysis for five tempe defect types and their root causes", width: 1834, height: 1034 },
+  { src: "/unhas-paper-quality-costs-2023-2024.png", title: "Quality failure costs, 2023-2024", alt: "Internal and external failure cost tables for 2023 and 2024", width: 766, height: 1034 },
+  { src: "/unhas-paper-abstract.png", title: "Publication abstract", alt: "Abstract and key findings from the tempe quality improvement publication", width: 1215, height: 900 },
+] as const;
 const languages = [
   { name: "Bahasa Indonesia", proficiency: "Native Speaker", credential: "Native" },
   { name: "English", proficiency: "Professional Proficiency", credential: "TOEFL 550" },
@@ -39,6 +51,12 @@ function AcademicIcon({ kind }: { kind: "school" | "book" | "location" | "award"
 }
 function PaperPublication({ headingId, university = "usm" }: { headingId: string; university?: "hasanuddin" | "usm" }) {
   const isHasanuddin = university === "hasanuddin";
+  const evidence = isHasanuddin ? unhasEvidence : usmEvidence;
+  const publicationUrl = isHasanuddin ? "https://talentaconfseries.usu.ac.id/index.php/ee/article/view/3371/3002" : "https://canva.link/oomkkgf1nt08fpe";
+  const [activeEvidence, setActiveEvidence] = useState<number | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const moveEvidence = (step: number) => setActiveEvidence((current) => current === null ? null : (current + step + evidence.length) % evidence.length);
+  useEffect(() => { if (activeEvidence === null) return; const change = (step: number) => setActiveEvidence((current) => current === null ? null : (current + step + evidence.length) % evidence.length); const handleKey = (event: KeyboardEvent) => { if (event.key === "Escape") setActiveEvidence(null); if (event.key === "ArrowRight") change(1); if (event.key === "ArrowLeft") change(-1); }; window.addEventListener("keydown", handleKey); return () => window.removeEventListener("keydown", handleKey); }, [activeEvidence, evidence]);
   const paperMethods = isHasanuddin ? ["Six Sigma DMAIC", "Pareto Analysis", "P-Chart", "DPMO", "Fault Tree Analysis (FTA)", "Failure Mode and Effects Analysis (FMEA)", "Kaizen 5S", "5W+1H", "Quality Cost Analysis", "Continuous Improvement"] : methods;
   return (
         <article aria-labelledby={headingId} className={aboutCard}>
@@ -47,7 +65,7 @@ function PaperPublication({ headingId, university = "usm" }: { headingId: string
           <p className="mt-2 text-sm leading-6 text-ice">{isHasanuddin ? "TALENTA Conference Series: Energy & Engineering, 2026" : "International Journal for Quality Research, 2026"}</p>
           {isHasanuddin ? (
             <ul className="mt-3 list-disc space-y-2 pl-4 text-justify text-sm leading-6 text-muted marker:text-ice/60">
-              <li>Analyzed <strong className="font-medium text-cream/90">194,544 production units</strong> and <strong className="font-medium text-cream/90">305 defective products</strong> across <strong className="font-medium text-cream/90">30 production days</strong> to evaluate production quality and identify critical defect types.</li>
+              <li>Analyzed <strong className="font-medium text-cream/90">194,544 production units</strong> and <strong className="font-medium text-cream/90">305 defective products</strong> across <strong className="font-medium text-cream/90">30 production days</strong>. Internal failure costs (waste and rework) decreased by <strong className="font-medium text-cream/90">Rp7,065,681 (0.82%)</strong>, from Rp859,860,454 in 2023 to Rp852,794,773 in 2024.</li>
               <li>Applied <strong className="font-medium text-cream/90">Six Sigma DMAIC, Pareto analysis, P-Chart, DPMO, FTA, and FMEA</strong> to measure process performance, identify root causes, and prioritize quality improvement opportunities.</li>
               <li>Developed <strong className="font-medium text-cream/90">continuous improvement recommendations using Kaizen 5S and 5W+1H</strong>, supported by quality-cost analysis to address waste, rework, and other quality-related costs.</li>
             </ul>
@@ -57,15 +75,64 @@ function PaperPublication({ headingId, university = "usm" }: { headingId: string
           <p className="mt-3 text-justify text-sm leading-6 text-muted">Scraped 13,800 customer reviews from metadata. LSTM and BiLSTM models were used to identify sentiment patterns, with BiLSTM achieving 96.83% accuracy. Negative reviews were then analyzed using LDA topic modeling across five DINESERV dimensions: Responsiveness, Reliability, Tangibles, Empathy, and Assurance to identify actionable service issues. The most prominent complaints involved long waiting times and slow order fulfillment, followed by food quality and order accuracy, facility cleanliness and comfort, employee attentiveness, and service information clarity.</p>
             </>
           )}
-          <div className="mt-4">
-            <h4 className={aboutLabel}>Methods</h4>
-            <ul className="mt-2 flex flex-wrap gap-1.5">
-              {paperMethods.map((method) => <li key={method} className="about-badge-glow rounded-md border border-ice/15 px-2.5 py-1 text-xs leading-5 text-ice/90">{method}</li>)}
-            </ul>
+          <div className="mt-4 grid gap-5 sm:grid-cols-[minmax(0,1fr)_minmax(220px,0.8fr)]">
+            <div>
+              <h4 className={aboutLabel}>Methods</h4>
+              <ul className="mt-2 flex flex-wrap gap-1.5">
+                {paperMethods.map((method) => <li key={method} className="about-badge-glow rounded-md border border-ice/15 px-2 py-0.5 text-[10px] leading-4 text-ice/90">{method}</li>)}
+              </ul>
+            </div>
+            <div className="min-w-0"><div className="flex items-center justify-between gap-2"><h4 className={aboutLabel + " text-[9px] tracking-[0.08em]"}>Project evidence</h4><a href={publicationUrl} target="_blank" rel="noopener noreferrer" className="shrink-0 rounded-full border border-ice/25 px-1.5 py-1 text-[9px] font-medium text-ice transition-colors hover:border-ice/50 hover:bg-ice/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream">{isHasanuddin ? "View Unhas paper" : "View USM project"} <span aria-hidden="true">&#8599;</span></a></div><div className="mt-2 grid w-full grid-cols-4 gap-1.5">{evidence.map((photo, index) => <button key={photo.src} type="button" onClick={() => setActiveEvidence(index)} aria-label={"View full image: " + photo.title} className="group min-w-0 overflow-hidden rounded-lg border border-white/15 bg-navy/40 transition-colors hover:border-ice/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream"><Image src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} sizes="(min-width: 640px) 8vw, 22vw" className="aspect-video w-full object-cover transition-transform duration-200 group-hover:scale-[1.03]" /></button>)}</div></div>
           </div>
+          {activeEvidence !== null && <div role="dialog" aria-modal="true" aria-label={evidence[activeEvidence].title} className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 sm:p-8">
+            <button type="button" aria-label="Close image preview" onClick={() => setActiveEvidence(null)} className="absolute inset-0 cursor-zoom-out" />
+            <div className="relative z-10 flex max-h-full max-w-6xl flex-col items-center">
+              <div className="mb-3 flex w-full items-center justify-between gap-4 text-sm text-cream"><p>{evidence[activeEvidence].title}</p><button type="button" onClick={() => setActiveEvidence(null)} className="rounded-full border border-white/30 px-3 py-1.5 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-cream">Close</button></div>
+              <div className="relative flex max-h-[82vh] max-w-full items-center justify-center" onTouchStart={(event) => { touchStartX.current = event.touches[0]?.clientX ?? null; }} onTouchEnd={(event) => { const start = touchStartX.current; const end = event.changedTouches[0]?.clientX; if (start !== null && end !== undefined && Math.abs(end - start) > 40) moveEvidence(end < start ? 1 : -1); touchStartX.current = null; }}>
+                <button type="button" aria-label="Previous evidence photo" onClick={() => moveEvidence(-1)} className="absolute left-2 z-10 rounded-full bg-black/60 px-3 py-2 text-2xl text-white hover:bg-black/80 focus-visible:outline-2 focus-visible:outline-white">&#8592;</button>
+                <Image src={evidence[activeEvidence].src} alt={evidence[activeEvidence].alt} width={evidence[activeEvidence].width} height={evidence[activeEvidence].height} sizes="90vw" className="max-h-[82vh] w-auto max-w-full object-contain" />
+                <button type="button" aria-label="Next evidence photo" onClick={() => moveEvidence(1)} className="absolute right-2 z-10 rounded-full bg-black/60 px-3 py-2 text-2xl text-white hover:bg-black/80 focus-visible:outline-2 focus-visible:outline-white">&#8594;</button>
+              </div>
+            </div>
+          </div>}
         </article>
   );
 }
+const exchangePhotos = [
+  { src: "/usm-exchange-workshop.jpeg", title: "USM exchange workshop", alt: "Students participating in a hands-on workshop at Universiti Sains Malaysia", width: 960, height: 1280 },
+  { src: "/usm-exchange-classmates.jpeg", title: "USM exchange classmates", alt: "Exchange students gathered at Universiti Sains Malaysia", width: 2560, height: 1440 },
+  { src: "/usm-exchange-certificate.png", title: "USM exchange certificate", alt: "Certificate of appreciation for the USM Student Exchange Programme", width: 1344, height: 983 },
+  { src: "/usm-exchange-portrait.jpeg", title: "USM campus portrait", alt: "Student holding a laptop and flowers in front of the USM sign", width: 1280, height: 720 },
+  { src: "/usm-exchange-group.jpeg", title: "USM exchange cohort", alt: "International exchange students gathered at Universiti Sains Malaysia", width: 1600, height: 900 },
+] as const;
+
+function ExchangeGallery() {
+  const [activePhoto, setActivePhoto] = useState<number | null>(null);
+  return (
+    <>
+      <div className="mt-4">
+        <h4 className={aboutLabel}>Exchange photos</h4>
+        <div className="mt-2 grid grid-cols-2 gap-2">
+          {exchangePhotos.map((photo, index) => (
+            <button key={photo.src} type="button" onClick={() => setActivePhoto(index)} aria-label={"View full photo: " + photo.title} className="group min-w-0 overflow-hidden rounded-lg border border-white/15 bg-navy/40 transition-colors hover:border-ice/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cream">
+              <Image src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} sizes="(min-width: 1024px) 100px, 45vw" className="aspect-video w-full object-cover transition-transform duration-200 group-hover:scale-[1.03]" />
+            </button>
+          ))}
+        </div>
+      </div>
+      {activePhoto !== null && (
+        <div role="dialog" aria-modal="true" aria-label={exchangePhotos[activePhoto].title} className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 sm:p-8">
+          <button type="button" aria-label="Close photo preview" onClick={() => setActivePhoto(null)} className="absolute inset-0 cursor-zoom-out" />
+          <div className="relative z-10 flex max-h-full max-w-6xl flex-col items-center">
+            <div className="mb-3 flex w-full items-center justify-between gap-4 text-sm text-cream"><p>{exchangePhotos[activePhoto].title}</p><button type="button" onClick={() => setActivePhoto(null)} className="rounded-full border border-white/30 px-3 py-1.5 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-cream">Close</button></div>
+            <Image src={exchangePhotos[activePhoto].src} alt={exchangePhotos[activePhoto].alt} width={exchangePhotos[activePhoto].width} height={exchangePhotos[activePhoto].height} sizes="90vw" className="max-h-[82vh] w-auto max-w-full object-contain" />
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 function AboutContent() {
   return (
     <div>
@@ -114,7 +181,7 @@ function AboutContent() {
         </div>
 
       </div>
-      <div className="mt-14 border-t border-white/10 pt-10 sm:mt-16 sm:pt-12">
+      <div className="mt-8 border-t border-white/10 pt-6 sm:mt-10 sm:pt-8">
         <div className="flex items-center gap-4 sm:gap-6">
 <h2 className="text-4xl font-semibold leading-tight tracking-tight text-cream sm:text-5xl lg:text-[52px]">Universiti Sains Malaysia</h2>
 <Image src="/usm-logo-transparent.png" alt="Logo Universiti Sains Malaysia" width={80} height={80} className="h-14 w-14 shrink-0 object-contain sm:h-20 sm:w-20" />
@@ -136,6 +203,7 @@ function AboutContent() {
                 <li key={course} className="flex min-w-0 items-center rounded-lg border border-ice/20 bg-navy/20 px-2.5 py-1 text-[11px] leading-4 text-cream/90 backdrop-blur-sm transition-colors hover:border-ice/50 hover:bg-navy/60">{course}</li>
               ))}
             </ul>
+            <ExchangeGallery />
           </div>
         </div>
       </div>
@@ -145,7 +213,7 @@ function AboutContent() {
 const experiences = [
   {
     id: "iki", company: "PT Industri Kapal Indonesia (PERSERO)", type: "Internship",
-    role: "Occupational Health, Safety, and Environment (HSE) Intern", period: "February–July 2025",
+    role: "Occupational Health, Safety, and Environment (HSE) Intern", period: "Februaryâ€“July 2025",
     methods: ["Excel", "Word", "FMEA", "FTA", "Hierarchy of Controls", "ISO 45001", "ISO 9001"],
     contributions: [
       "Analyzed operational data from 120 warehouse workers to evaluate workplace conditions, identify operational risks, and support data-driven improvement initiatives.",
@@ -156,7 +224,7 @@ const experiences = [
   },
   {
     id: "laboratory", company: "Statistical And Quality Management Laboratory", type: "Laboratory",
-    role: "Lab Practicum Coordinator & Assistant Coordinator", period: "October 2023–June 2025",
+    role: "Lab Practicum Coordinator & Assistant Coordinator", period: "October 2023â€“June 2025",
     focus: ["Statistical Analysis", "Quality Management", "Research", "Practicum Coordination"],
     methods: ["Excel", "SPSS", "SmartPLS", "Minitab", "Six Sigma DMAIC", "FTA", "FMEA", "Kaizen", "Cost of Quality"],
     contributions: [
@@ -167,7 +235,7 @@ const experiences = [
   },
   {
     id: "pii", company: "Persatuan Insinyur Indonesia (PII)", type: "Professional Association",
-    role: "Data Administration and Event Operations", period: "December 2023–December 2024",
+    role: "Data Administration and Event Operations", period: "December 2023â€“December 2024",
     focus: ["Participant Data", "Event Documentation", "Digital Publications", "Online Session Hosting"],
     methods: ["Excel", "Word", "Figma", "Canva"],
     contributions: [
@@ -228,6 +296,24 @@ function ExperienceCard({ experience }: { experience: (typeof experiences)[numbe
 }
 const projects = [
   {
+    "id": "bantimurung-feasibility",
+    "title": "Investment Feasibility Analysis for Bantimurung Natural Tourism",
+    "image": "/bantimurung-feasibility.svg",
+    "alt": "Bantimurung tourism investment feasibility summary with GE-McKinsey market matrix and projected financial indicators",
+    "description": "Conducted an investment feasibility study for the development of Bantimurung Natural Tourism, Maros, evaluating market potential, infrastructure requirements, operating costs, and projected financial returns to support business development decisions.",
+    "scope": "Evaluated market attractiveness and competitiveness using the GE-McKinsey Matrix; estimated Rp30 billion in CAPEX, asset depreciation, and annual operating expenses; projected annual revenue of Rp5.697 billion and annual profit of Rp5.085 billion. The feasibility assessment produced a positive NPV of Rp170.38 million, an IRR of 12%, a BCR of 1.006, and a discounted payback period of approximately 9 years and 11 months.",
+    "tech": [
+      "NPV",
+      "IRR",
+      "BCR",
+      "Discounted Payback Period",
+      "CAPEX & Depreciation Analysis",
+      "Fixed & Variable Cost Analysis",
+      "Revenue & Profit Projection",
+      "GE-McKinsey Matrix",
+      "Market & Competitive Analysis"
+    ]
+  },  {
     "id": "automotive",
     "title": "National Automotive Sales Intelligence",
     "image": "/automotive-sales-dashboard.png",
@@ -241,6 +327,24 @@ const projects = [
       "Data Modeling",
       "Sales Analytics",
       "Geospatial Analysis"
+    ]
+  },
+  {
+    "id": "supermarket-performance",
+    "title": "Supermarket Performance Analysis & Visualization with Python",
+    "image": "/supermarket-sales-visualization.jpg",
+    "alt": "Python Matplotlib visualizations of 2019 supermarket sales data, including GMV trends, brand comparisons, and statistical charts",
+    "description": "Performed exploratory analysis and visualization of 2019 supermarket transactions to identify sales trends, product performance, brand comparisons, and relationships between key business variables.",
+    "scope": "Prepared transaction data with Pandas, transformed dates, engineered features, and calculated GMV (quantity × item price). Analyzed monthly GMV trends, daily December sales for the top five brands, product and regional performance, quantity and price distributions, and relationships between quantity, GMV, and median product prices. Used annotated charts to communicate key patterns and sales variation.",
+    "tech": [
+      "Python",
+      "Pandas",
+      "Matplotlib",
+      "Jupyter Notebook",
+      "Exploratory Data Analysis",
+      "Data Cleaning & Transformation",
+      "Data Aggregation",
+      "Data Visualization"
     ]
   },
   {
@@ -347,7 +451,7 @@ const projects = [
     "alt": "Material requirements planning spreadsheet comparing lot-sizing calculations and inventory costs for nails and wood",
     "description": "Built a 12-month material requirements planning model to optimize ordering schedules and inventory cost across two production materials.",
     "scope": "Compared 10 lot-sizing techniques using demand, ordering cost, holding cost, gross/net requirements, and planned order releases to determine the most cost-efficient replenishment strategy for each material.",
-    "result": "LTC and PPB achieved the lowest modeled cost for nails at Rp13.43M, while LUC and Silver Meal minimized wood inventory cost to Rp22.20M—up to ~61% lower than alternative methods evaluated.",
+    "result": "LTC and PPB achieved the lowest modeled cost for nails at Rp13.43M, while LUC and Silver Meal minimized wood inventory cost to Rp22.20Mâ€”up to ~61% lower than alternative methods evaluated.",
     "tech": [
       "MRP",
       "Inventory Optimization",
@@ -366,8 +470,8 @@ const projects = [
     "image": "/student-satisfaction-sem.png",
     "alt": "SPSS ANOVA and coefficient tables, SmartPLS student satisfaction path model, and direct and mediated hypothesis test results",
     "description": "Built a PLS-SEM model using 200 student responses to quantify how department facilities and service quality influence student satisfaction through direct and mediated relationships.",
-    "scope": "Modeled three latent constructs across 17 survey indicators, validated the measurement model, evaluated R²/Q² and model fit, and tested direct and indirect effects using SmartPLS bootstrapping.",
-    "result": "Facilities significantly improved service quality (β = 0.474, p < 0.001), while service quality significantly influenced student satisfaction (β = 0.396, p < 0.001). A significant mediation effect was also identified through the path Facilities → Service Quality → Satisfaction (β = 0.188, p < 0.001).",
+    "scope": "Modeled three latent constructs across 17 survey indicators, validated the measurement model, evaluated RÂ²/QÂ² and model fit, and tested direct and indirect effects using SmartPLS bootstrapping.",
+    "result": "Facilities significantly improved service quality (Î² = 0.474, p < 0.001), while service quality significantly influenced student satisfaction (Î² = 0.396, p < 0.001). A significant mediation effect was also identified through the path Facilities â†’ Service Quality â†’ Satisfaction (Î² = 0.188, p < 0.001).",
     "tech": [
       "PLS-SEM",
       "Excel",
@@ -376,7 +480,7 @@ const projects = [
       "Path Analysis",
       "Bootstrapping",
       "Mediation Analysis",
-      "R² / Q²",
+      "RÂ² / QÂ²",
       "Validity & Reliability"
     ]
   }
@@ -393,13 +497,13 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
   return (
     <>
       <motion.article
-        whileHover={reducedMotion ? undefined : { y: -8, scale: 1.015 }}
+        whileHover={reducedMotion ? undefined : { y: -2, scale: 1.005 }}
         transition={{ type: "spring", stiffness: 220, damping: 24 }}
         className="project-card group relative overflow-hidden rounded-3xl border border-[#5cdbff]/25 bg-navy/15 backdrop-blur-md"
         aria-labelledby={project.id + "-project-heading"}
       >
         <div className="overflow-hidden border-b border-ice/10 bg-midnight/60">
-          <Image src={project.image} alt={project.alt} width={1530} height={863} sizes="(min-width: 1280px) 400px, (min-width: 768px) 50vw, 100vw" className="project-preview aspect-video w-full object-cover object-center transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.06] motion-safe:group-hover:-rotate-[0.5deg]" />
+          <Image src={project.image} alt={project.alt} width={1530} height={863} sizes="(min-width: 1280px) 400px, (min-width: 768px) 50vw, 100vw" className="project-preview aspect-video w-full object-cover object-center transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.02]" />
         </div>
         <div className="p-5 sm:p-6">
           <h3 id={project.id + "-project-heading"} className="text-xl font-medium leading-snug tracking-tight text-cream">{project.title}</h3>
@@ -452,7 +556,7 @@ export default function PortfolioSections() {
       {sections.map((section, index) => (
         <section key={section.id} id={section.id} className={`portfolio-section flex flex-col border-t border-white/10 ${section.id === "about" ? "justify-start pb-8 pt-5 lg:pb-10 lg:pt-6" : section.id === "project" ? "justify-start pt-8 pb-12 lg:pt-10 lg:pb-16" : section.id === "experience" ? "justify-start pt-8 pb-8 lg:pt-10 lg:pb-10" : (section.id === "competencies" || section.id === "organisation") ? "justify-start pt-6 pb-10 lg:pt-8 lg:pb-12" : "min-h-[85svh] justify-center py-24 lg:py-32"}`}>
           <motion.div
-            initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+            initial={reducedMotion ? false : { opacity: 0, y: 4 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: "some" }}
             transition={{ duration: reducedMotion ? 0 : 0.45 }}
@@ -475,7 +579,7 @@ export default function PortfolioSections() {
               {section.cards.map((title, cardIndex) => (
                 <motion.article
                   key={title}
-                  whileHover={reducedMotion ? undefined : { y: -6 }}
+                  whileHover={reducedMotion ? undefined : { y: -2 }}
                   className="group min-h-56 rounded-3xl border border-white/10 bg-white/[0.025] p-7 backdrop-blur-sm transition-colors hover:border-ice/25 hover:bg-ice/[0.04]"
                 >
                   <span className="text-xs text-ice/50">0{cardIndex + 1}</span>
@@ -497,3 +601,10 @@ export default function PortfolioSections() {
     </div>
   );
 }
+
+
+
+
+
+
+

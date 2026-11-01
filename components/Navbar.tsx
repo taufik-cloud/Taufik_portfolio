@@ -6,8 +6,8 @@ import { motion, useReducedMotion } from "motion/react";
 const menu = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
-  { label: "Organisation", href: "#organisation" },
   { label: "Project", href: "#project" },
+  { label: "Organisation", href: "#organisation" },
   { label: "Competencies", href: "#competencies" },
 ];
 
@@ -82,3 +82,5 @@ export default function Navbar({ entered = true }: { entered?: boolean }) {
     </motion.nav>
   );
 }
+
+
