@@ -72,11 +72,10 @@ html {
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;
-  animation: orbit-edge 5s linear infinite;
+  animation: none;
 }
 
-.institution-glow:nth-child(2)::before { animation-delay: -1.6s; }
-.institution-glow:nth-child(3)::before { animation-delay: -3.2s; }
+.institution-glow:hover::before, .institution-glow:focus-visible::before { animation: orbit-edge 5s linear infinite; }
 
 .hero-glow-link:hover {
   transform: translateY(-1px);
@@ -123,19 +122,18 @@ html {
   mask-composite: exclude;
   filter: drop-shadow(0 0 2px rgba(241,233,218,0.2));
   pointer-events: none;
-  animation: orbit-edge 10s linear infinite;
+  animation: none;
 }
 
-.about-badge-glow:nth-child(3n + 2)::before { animation-delay: -3s; }
-.about-badge-glow:nth-child(3n)::before { animation-delay: -6s; }
+.about-badge-glow:hover::before { animation: orbit-edge 10s linear infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   .about-badge-glow::before { animation: none; }
 }
 .project-card { transition: border-color 350ms ease, box-shadow 350ms ease; }
 .project-card:hover { border-color: rgba(92,219,255,.55); box-shadow: 0 0 12px rgba(92,219,255,.12), 0 8px 20px rgba(0,0,0,.18); }
-.project-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: conic-gradient(from var(--edge-angle), transparent 0% 65%, rgba(92,219,255,.3) 75%, rgba(92,219,255,.8) 82%, transparent 94%); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; pointer-events: none; opacity: .35; animation: orbit-edge 12s linear infinite; transition: opacity 350ms ease; }
-.project-card:hover::after { opacity: 1; }
+.project-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; background: conic-gradient(from var(--edge-angle), transparent 0% 65%, rgba(92,219,255,.3) 75%, rgba(92,219,255,.8) 82%, transparent 94%); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; pointer-events: none; opacity: .35; animation: none; transition: opacity 350ms ease; }
+.project-card:hover::after { opacity: 1; animation: orbit-edge 12s linear infinite; }
 @media (prefers-reduced-motion: reduce) { .project-card::after { animation: none; } .project-card, .project-preview { transition: none; } }
 
 /* Shared subtle interaction for portfolio cards, badges and links. */
@@ -143,12 +141,7 @@ html {
 @media (hover: hover) and (pointer: fine) {
   .material-surface:not(.project-card):hover { translate: 0 -1px; scale: 1.002; border-color: rgba(92,219,255,.45); box-shadow: 0 0 8px rgba(92,219,255,.1), 0 4px 12px rgba(0,0,0,.12); }
 }
-.material-revealed { animation: material-appear 250ms cubic-bezier(.2,.65,.3,1) backwards; }
-@keyframes material-appear { from { opacity: .5; translate: 0 2px; } to { opacity: 1; translate: 0 0; } }
 @media (prefers-reduced-motion: reduce) {
   .material-surface { transition: none; }
-  .material-revealed { animation: none; }
   .material-surface:not(.project-card):hover { translate: none; scale: none; }
 }
-
-

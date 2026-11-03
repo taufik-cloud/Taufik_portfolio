@@ -526,41 +526,17 @@ export default function PortfolioSections() {
 
   useEffect(() => {
     const selector = '[class*="rounded"][class*="border"]';
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("material-revealed");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08 });
-    const register = () => {
-      document.querySelectorAll<HTMLElement>(".portfolio-section " + selector).forEach((element) => {
-        if (element.closest("nav, header") || element.classList.contains("material-surface")) return;
-        element.classList.add("material-surface");
-        // Reveal outer cards only, so nested badges do not animate all at once.
-        if (!reducedMotion && !element.parentElement?.closest(selector)) observer.observe(element);
-      });
-    };
-    register();
-    const mutations = new MutationObserver(register);
-    mutations.observe(document.body, { childList: true, subtree: true });
-    return () => {
-      observer.disconnect();
-      mutations.disconnect();
-      document.querySelectorAll(".material-surface").forEach((element) => element.classList.remove("material-surface", "material-revealed"));
-    };
-  }, [reducedMotion]);
+    const surfaces = document.querySelectorAll<HTMLElement>(".portfolio-section " + selector);
+    surfaces.forEach((element) => {
+      if (!element.closest("nav, header")) element.classList.add("material-surface");
+    });
+    return () => surfaces.forEach((element) => element.classList.remove("material-surface"));
+  }, []);
   return (
     <div className="relative z-20 mx-auto max-w-7xl px-6 lg:px-12">
       {sections.map((section, index) => (
         <section key={section.id} id={section.id} className={`portfolio-section flex flex-col border-t border-white/10 ${section.id === "about" ? "justify-start pb-8 pt-5 lg:pb-10 lg:pt-6" : section.id === "project" ? "justify-start pt-8 pb-12 lg:pt-10 lg:pb-16" : section.id === "experience" ? "justify-start pt-8 pb-8 lg:pt-10 lg:pb-10" : (section.id === "competencies" || section.id === "organisation") ? "justify-start pt-6 pb-10 lg:pt-8 lg:pb-12" : "min-h-[85svh] justify-center py-24 lg:py-32"}`}>
-          <motion.div
-            initial={reducedMotion ? false : { opacity: 0, y: 4 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: "some" }}
-            transition={{ duration: reducedMotion ? 0 : 0.45 }}
-          >
+          <div>
             <div className="mb-6 flex items-center gap-4 text-xs uppercase tracking-[0.25em] text-ice/70">
               <span>0{index + 1} / {section.title}</span>
               <span className="h-px w-16 bg-ice/30" />
@@ -590,7 +566,7 @@ export default function PortfolioSections() {
               ))}
             </div>
             )}
-          </motion.div>
+          </div>
         </section>
       ))}
       <ContactContent />

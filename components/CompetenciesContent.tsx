@@ -51,28 +51,61 @@ const groups = [
   },
 ];
 
+const certifications = [
+  {
+    title: "Supply Chain Management and Analytics",
+    organization: "Unilever",
+    date: "September 2026",
+    description: "Supply chain management and analytics training.",
+    href: "https://drive.google.com/file/d/1QHpCyT5oHlMMCR0-X6Z14igyyKdY7cWk/view?usp=sharing",
+  },
+  {
+    title: "Bootcamp Data Analyst",
+    organization: "DQLab",
+    date: "Agustus - September 2026",
+    description: "Modules: Excel, SQL, Python, Power BI, data visualization, data cleaning, data analysis, DAX, Power Query, and data management. Cases: AutoPulse and DQLab Store sales, XYZ.com customer analytics, branch sales distribution, customer acquisition and retention, sales and revenue analysis, SQL exercises, and Power BI dashboards.",
+    href: "https://drive.google.com/file/d/1we5A0kFpuNYL0OFLMbddmlioP6DMmiRI/view?usp=sharing",
+  },
+  {
+    title: "Bootcamp Data Analyst",
+    organization: "Karirnex by PT Ebiz Karisma Internasional",
+    date: "Agustus 2026",
+    description: "Modules: introduction to data analytics, data formatting and cleansing, systematic data analysis, Google BigQuery and SQL, Google Colab and Python, and data visualization and dashboards with Power BI.",
+    href: "https://drive.google.com/file/d/1hVRlALLdF7ZKn4qzrQ_D0WfHD8_Ua4nU/view?usp=sharing",
+  },
+  {
+    title: "Data Analyst Certification",
+    organization: "Badan Nasional Sertifikasi Profesi (BNSP)",
+    date: "Professional certification",
+    description: "Credential in data analysis supporting evidence-based decision making.",
+    href: "https://drive.google.com/file/d/1A-WxkVGHyhljLnIwp_exi5pyRV0JnulP/view?usp=sharing",
+  },
+  {
+    title: "TOEFL",
+    organization: "English language proficiency | Score 550",
+    date: "English proficiency test",
+    description: "English language proficiency for research, academic collaboration, and international learning environments.",
+    href: "https://drive.google.com/file/d/1QmSoivHM8DHsizo_WzSnasP3gCZb1CJr/view?usp=sharing",
+  },
+];
 export default function CompetenciesContent() {
 
 
   return (
     <div className="mt-6 space-y-8 sm:mt-8">
-      <div className="grid gap-4 md:grid-cols-2">
-        <article className="relative overflow-hidden rounded-3xl border border-ice/30 bg-gradient-to-br from-ice/10 via-navy/40 to-black/20 p-6 sm:p-7">
-          <div aria-hidden="true" className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-ice/10 blur-3xl" />
-          <p className="text-[11px] uppercase tracking-[0.2em] text-ice">Professional certification</p>
-          <div className="mt-4 flex items-start gap-4">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-ice/25 bg-ice/10 text-ice">
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-7 w-7"><circle cx="12" cy="8" r="5" /><path d="m8 12-1 9 5-3 5 3-1-9m-6-4 1.5 1.5L14 7" /></svg>
-            </span>
-            <div><h3 className="text-2xl font-semibold text-cream">Data Analyst</h3><p className="mt-1 text-sm leading-6 text-ice">Badan Nasional Sertifikasi Profesi (BNSP)</p></div>
-          </div>
-          <p className="mt-4 max-w-lg text-sm leading-6 text-cream/65">A professional credential supporting a practical focus on data analysis and evidence-based decision making.</p>
-        </article>
-        <article className="rounded-3xl border border-violet-300/25 bg-gradient-to-br from-violet-400/10 via-navy/40 to-black/20 p-6 sm:p-7">
-          <p className="text-[11px] uppercase tracking-[0.2em] text-violet-300">English proficiency</p>
-          <div className="mt-4 flex items-end justify-between gap-4"><div><h3 className="text-2xl font-semibold text-cream">TOEFL</h3><p className="mt-1 text-sm text-violet-200/80">English language test score</p></div><p className="text-5xl font-semibold tracking-tight text-violet-200">550</p></div>
-          <p className="mt-4 max-w-lg text-sm leading-6 text-cream/65">Supporting research reading, academic collaboration, and communication across international learning environments.</p>
-        </article>
+      <div className="grid items-stretch gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        {certifications.map((certification) => (
+          <article key={certification.title + certification.organization} className="flex min-w-0 flex-col rounded-3xl border border-ice/20 bg-gradient-to-br from-ice/[0.07] via-navy/40 to-black/20 p-4 transition-colors hover:border-ice/40 sm:p-5">
+            <p className="text-[10px] uppercase tracking-[0.16em] text-ice">Certificate / Training</p>
+            <h3 className="mt-3 text-base font-semibold leading-6 text-cream">{certification.title}</h3>
+            <p className="mt-1 text-xs leading-5 text-ice/90">{certification.organization}</p>
+            <p className="mt-2 text-[10px] text-cream/45">{certification.date}</p>
+            <p className="mt-3 flex-1 text-[11px] leading-5 text-cream/65">{certification.description}</p>
+            <a href={certification.href} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex w-fit items-center gap-2 rounded-full border border-ice/25 px-3 py-2 text-[11px] text-ice transition-colors hover:bg-ice/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cream">
+              View certificate <span aria-hidden="true">&#8599;</span>
+            </a>
+          </article>
+        ))}
       </div>
       <div>
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
